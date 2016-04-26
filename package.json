@@ -1,6 +1,6 @@
 {
   "name": "fetch-test-server",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Test node.js HTTP servers using the fetch API",
   "main": "dist/index.js",
   "files": [
