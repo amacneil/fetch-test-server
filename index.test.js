@@ -21,17 +21,16 @@ describe('TestServer', () => {
   });
 
   it('creates an http server', () => {
-    assert.isOk(server.server);
+    assert.typeOf(server.server, 'object');
   });
 
   it('listens on a random port', () => {
-    assert.isFalse(server.server.listening);
+    assert.isNull(server.server.address());
 
     return server.listen().then(() => {
-      assert.isTrue(server.server.listening);
-
       const address = server.server.address();
-      assert.isAbove(address.port, 49000);
+
+      assert.isAbove(address.port, 10000);
     });
   });
 
@@ -45,11 +44,11 @@ describe('TestServer', () => {
 
   it('closes the server connection', () => {
     return server.listen().then(() => {
-      assert.isTrue(server.server.listening);
+      assert.typeOf(server.server.address(), 'object');
 
       return server.close();
     }).then(() => {
-      assert.isFalse(server.server.listening);
+      assert.isNull(server.server.address());
     });
   });
 
@@ -60,8 +59,8 @@ describe('TestServer', () => {
   });
 
   it('listens on fetch', () => {
-    return server.fetch().then(() => {
-      assert.isTrue(server.server.listening);
+    return server.fetch('/foo').then(() => {
+      assert.typeOf(server.server.address(), 'object');
     });
   });
 
