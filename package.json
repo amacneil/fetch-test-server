@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Test node.js HTTP servers using the fetch API",
   "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "babel index.js -d dist",
     "clean": "rm -rf dist",
