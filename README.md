@@ -4,7 +4,7 @@
 [![Version](https://img.shields.io/npm/v/fetch-test-server.svg)](https://www.npmjs.com/package/fetch-test-server)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/amacneil/fetch-test-server/blob/master/LICENSE)
 
-This package allows you to easily run your Node.js server for integration testing, and interact with it using the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API). It is similar to [SuperTest](https://github.com/visionmedia/supertest), but using the Fetch API means that you can take advantage of promises, and newer ES7 features like [async/await](https://tc39.github.io/ecmascript-asyncawait/).
+This package allows you to easily run your Node.js server for integration testing, and interact with it using the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API). It is similar to [SuperTest](https://github.com/visionmedia/supertest), but using the Fetch API means that you can take advantage of promises, and newer ES2017 features like [async/await](https://tc39.github.io/ecmascript-asyncawait/).
 
 ## Installation
 
@@ -31,7 +31,7 @@ describe('API Integration Test', () => {
 });
 ```
 
-Using async/await (requires Babel or another transpiler):
+Using async/await (requires [Babel](http://babeljs.io/) or another transpiler):
 
 ```js
 import { assert } from 'chai';
