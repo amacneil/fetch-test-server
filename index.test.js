@@ -1,10 +1,10 @@
-import { assert } from 'chai';
+var assert = require('chai').assert;
 
-import TestServer from './index';
+var TestServer = require('.');
 
 // very simple http handler
-const app = (req, res) => {
-  const headers = {};
+var app = (req, res) => {
+  var headers = {};
   if (req.headers.ping) {
     headers.pong = req.headers.ping;
   }
@@ -14,7 +14,7 @@ const app = (req, res) => {
 };
 
 describe('TestServer', () => {
-  let server;
+  var server;
 
   beforeEach(() => {
     server = new TestServer(app);
@@ -24,11 +24,16 @@ describe('TestServer', () => {
     assert.typeOf(server.server, 'object');
   });
 
+  it('supports calling constructor', () => {
+    server = TestServer(app);
+    assert.typeOf(server.server, 'object');
+  });
+
   it('listens on a random port', () => {
     assert.isNull(server.server.address());
 
     return server.listen().then(() => {
-      const address = server.server.address();
+      var address = server.server.address();
 
       assert.isAbove(address.port, 10000);
     });
@@ -75,8 +80,8 @@ describe('TestServer', () => {
   });
 
   it('supports fetch options', () => {
-    const opts = {
-      headers: { ping: 'foo' },
+    var opts = {
+      headers: { ping: 'foo' }
     };
 
     return server.fetch('/bar', opts).then((res) => {
@@ -85,13 +90,13 @@ describe('TestServer', () => {
   });
 
   it('supports helper methods', () => {
-    for (const method of ['delete', 'get', 'head', 'options', 'patch', 'post', 'put']) {
-      assert.typeOf(server[method], 'function');
-    }
-
-    const opts = {
-      headers: { ping: 'foo' },
+    var opts = {
+      headers: { ping: 'foo' }
     };
+
+    ['delete', 'get', 'head', 'options', 'patch', 'post', 'put'].forEach((method) => {
+      assert.typeOf(server[method], 'function');
+    });
 
     return server.post('/mail', opts).then((res) => {
       assert.strictEqual(res.status, 200);

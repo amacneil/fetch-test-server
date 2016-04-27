@@ -2,16 +2,11 @@
   "name": "fetch-test-server",
   "version": "1.0.0",
   "description": "Test node.js HTTP servers using the fetch API",
-  "main": "dist/index.js",
-  "files": [
-    "dist"
-  ],
+  "main": "index.js",
   "scripts": {
-    "build": "babel index.js -d dist",
-    "clean": "rm -rf dist",
     "lint": "eslint *.js",
-    "prepublish": "npm run clean && npm run lint && npm run test && npm run build",
-    "test": "mocha --compilers js:babel-register *.test.js"
+    "mocha": "mocha *.test.js",
+    "test": "npm run lint && npm run mocha"
   },
   "repository": {
     "type": "git",
@@ -38,9 +33,6 @@
     "node-fetch": "^1.5.1"
   },
   "devDependencies": {
-    "babel-cli": "6.7.7",
-    "babel-preset-es2015": "6.6.0",
-    "babel-register": "6.7.2",
     "chai": "3.5.0",
     "eslint": "2.8.0",
     "eslint-config-airbnb-base": "1.0.4",
