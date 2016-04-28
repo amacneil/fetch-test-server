@@ -23,15 +23,19 @@ import app from './myapp';
 const server = new TestServer(app);
 
 describe('API Integration Test', () => {
-  it('responds to /foo', () => {
-    return server.fetch('/foo').then((res) => {
+  it('responds to /user', () => {
+    return server.fetch('/user').then((res) => {
       assert.strictEqual(res.status, 200);
+      
+      return res.json();
+    }).then((body) => {
+      assert.strictEqual(body.name, 'Adrian');
     });
   });
 });
 ```
 
-Using async/await (requires [Babel](http://babeljs.io/) or another transpiler):
+Using async/await (currently requires [Babel](http://babeljs.io/) or another transpiler):
 
 ```js
 import { assert } from 'chai';
@@ -40,28 +44,31 @@ import app from './myapp';
 const server = new TestServer(app);
 
 describe('API Integration Test', () => {
-  it('responds to /foo', async () => {
-    const res = await server.fetch('/foo');
+  it('responds to /user', async () => {
+    const res = await server.fetch('/user');
+    const body = await res.json();
+    
     assert.strictEqual(res.status, 200);
+    assert.strictEqual(body.name, 'Adrian');
   });
 });
 ```
 
-Behind the scenes, it uses [node-fetch](https://github.com/bitinn/node-fetch) to implement the Fetch API. The server listens on a random port, and does not start listening until you first call `fetch()`. Your requests will automatically wait until the server is available.
+Behind the scenes, it uses [node-fetch](https://github.com/bitinn/node-fetch) to implement the Fetch API. The server listens on a random port, and does not start listening until you first call `fetch()`. Your requests will be automatically held until the server is available.
 
 You can also use helper methods to call common HTTP verbs:
 
 ```js
-server.head('/users');
-server.get('/users');
-server.post('/users');
-server.put('/users/1');
-server.patch('/users/1');
-server.delete('/users/1');
-server.options('/users/1');
+server.head('/path');
+server.get('/path');
+server.post('/path');
+server.put('/path');
+server.patch('/path');
+server.delete('/path');
+server.options('/path');
 ```
 
-Per the Fetch API, you can customize the request with an optional second parameter:
+Per the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch), you can customize the request with an optional second parameter:
 
 ```js
 server.post('/users', {
@@ -75,7 +82,7 @@ Finally, if you pass an object as the `body` parameter, it will automatically be
 ```js
 server.post('/users', {
   headers: { authorization: 'supersecret' },
-  body: { name: 'adrian' },
+  body: { name: 'Adrian' },
 });
 ```
 
