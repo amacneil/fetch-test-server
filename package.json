@@ -4,8 +4,10 @@
   "description": "Test node.js HTTP servers using the fetch API",
   "main": "index.js",
   "scripts": {
+    "build": "rm -r es5 > /dev/null; babel ./*.js -d es5",
+    "prepublish": "npm run build",
     "lint": "eslint *.js",
-    "mocha": "mocha *.test.js",
+    "mocha": "mocha *.test.js es5/*.test.js",
     "test": "npm run lint && npm run mocha"
   },
   "repository": {
@@ -33,10 +35,26 @@
     "node-fetch": "^1.5.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.7.7",
+    "babel-plugin-transform-es2015-arrow-functions": "^6.7.7",
+    "babel-plugin-transform-es2015-template-literals": "^6.6.5",
+    "babel-plugin-transform-object-assign": "^6.5.0",
     "chai": "3.5.0",
     "eslint": "2.8.0",
     "eslint-config-airbnb-base": "1.0.4",
     "eslint-plugin-import": "1.6.0",
-    "mocha": "2.4.5"
+    "mocha": "2.4.5",
+    "native-promise-only": "^0.8.1"
+  },
+  "files": [
+    "es5",
+    "*.js"
+  ],
+  "babel": {
+    "plugins": [
+      "transform-es2015-arrow-functions",
+      "transform-es2015-template-literals",
+      "transform-object-assign"
+    ]
   }
 }

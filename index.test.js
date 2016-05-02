@@ -1,6 +1,12 @@
+/* eslint-disable vars-on-top, global-require */
+
 var assert = require('chai').assert;
 
-var TestServer = require('.');
+if (typeof Promise === 'undefined') {
+  global.Promise = require('native-promise-only');
+}
+
+var TestServer = require('./index');
 
 // very simple http handler
 var app = (req, res) => {
