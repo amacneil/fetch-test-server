@@ -7,8 +7,8 @@
     "build": "rm -r es5 > /dev/null; babel ./*.js -d es5",
     "prepublish": "npm run build",
     "lint": "eslint *.js",
-    "mocha": "mocha *.test.js es5/*.test.js",
-    "test": "npm run lint && npm run mocha"
+    "mocha": "[ `echo $npm_config_node_version | cut -d. -f1` -eq 0 ] && mocha es5/*.test.js || mocha *.test.js",
+    "test": "npm run lint && npm run build && npm run mocha"
   },
   "repository": {
     "type": "git",
