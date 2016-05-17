@@ -60,4 +60,6 @@ TestServer.prototype.fetch = function fetch(path, opts) {
   });
 };
 
+TestServer.Fetch = nodeFetch;
+
 module.exports = TestServer;
