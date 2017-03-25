@@ -9,7 +9,11 @@ function TestServer(app) {
     return new TestServer;
   }
 
-  this.server = http.createServer(app);
+  if (typeof app === 'string') {
+    this.server = app;
+  } else {
+    this.server = http.createServer(app);
+  }
 
   ['delete', 'get', 'head', 'options', 'patch', 'post', 'put'].forEach((method) => {
     this[method] = (path, options) =>
@@ -44,20 +48,29 @@ TestServer.prototype.close = function close() {
 };
 
 TestServer.prototype.fetch = function fetch(path, opts) {
-  return this.listen().then(() => {
-    var url = `${this.address}${path}`;
-    var options = Object.assign({ headers: {} }, opts);
+  var url;
+  var res;
+  var options = Object.assign({ headers: {} }, opts);
 
-    // automatic JSON encoding
-    if (typeof options.body === 'object') {
-      options.headers['Content-Type'] = 'application/json';
-      options.body = JSON.stringify(options.body);
-    }
+  // automatic JSON encoding
+  if (typeof options.body === 'object') {
+    options.headers['Content-Type'] = 'application/json';
+    options.body = JSON.stringify(options.body);
+  }
 
-    log(url, options);
+  if (typeof this.server !== 'string') {
+    res = this.listen().then(() => {
+      url = `${this.address}${path}`;
 
-    return nodeFetch(url, options);
-  });
+      log(url, options);
+
+      return nodeFetch(url, options);
+    });
+  } else {
+    url = `${this.server}${path}`;
+    res = nodeFetch(url, options);
+  }
+  return res;
 };
 
 module.exports = TestServer;
