@@ -9,6 +9,12 @@ function TestServer(app) {
     return new TestServer();
   }
 
+  // allow custom promise
+  if (!TestServer.Promise) {
+    throw new Error('native promise missing, set TestServer.Promise to your favorite alternative');
+  }
+
+  this.Promise = TestServer.Promise;
   this.server = http.createServer(app);
 
   ['delete', 'get', 'head', 'options', 'patch', 'post', 'put'].forEach((method) => {
@@ -26,7 +32,7 @@ function TestServer(app) {
 
 TestServer.prototype.listen = function listen() {
   if (!this.listener) {
-    this.listener = new Promise((resolve, reject) => {
+    this.listener = new this.Promise((resolve, reject) => {
       this.server.listen(0, () => resolve())
         .on('error', (err) => reject(err));
     });
@@ -38,7 +44,7 @@ TestServer.prototype.listen = function listen() {
 TestServer.prototype.close = function close() {
   this.listener = null;
 
-  return new Promise((resolve, reject) => {
+  return new this.Promise((resolve, reject) => {
     this.server.close((err) => (err ? reject(err) : resolve()));
   });
 };
@@ -59,5 +65,8 @@ TestServer.prototype.fetch = function fetch(path, opts) {
     return nodeFetch(url, options);
   });
 };
+
+// expose Promise
+TestServer.Promise = global.Promise;
 
 module.exports = TestServer;
