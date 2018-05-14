@@ -20,6 +20,10 @@ describe('TestServer', () => {
     server = new TestServer(app);
   });
 
+  afterEach(() => {
+    return server.listener ? server.close() : null;
+  });
+
   it('creates an http server', () => {
     assert.typeOf(server.server, 'object');
   });

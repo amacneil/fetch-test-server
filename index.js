@@ -6,7 +6,7 @@ var log = debug('fetch-test-server');
 
 function TestServer(app) {
   if (!(this instanceof TestServer)) {
-    return new TestServer;
+    return new TestServer();
   }
 
   this.server = http.createServer(app);

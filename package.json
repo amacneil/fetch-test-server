@@ -29,14 +29,14 @@
     "testing"
   ],
   "dependencies": {
-    "debug": "^2.2.0",
-    "node-fetch": "^1.5.1"
+    "debug": "^3.1.0",
+    "node-fetch": "^2.1.2"
   },
   "devDependencies": {
-    "chai": "3.5.0",
-    "eslint": "2.8.0",
-    "eslint-config-airbnb-base": "1.0.4",
-    "eslint-plugin-import": "1.6.0",
-    "mocha": "2.4.5"
+    "chai": "^4.1.2",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.11.0",
+    "mocha": "^5.1.1"
   }
 }
